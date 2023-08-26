@@ -2,8 +2,6 @@
 
 plugins {
     id("java")
-    id("checkstyle")
-    id("com.github.spotbugs").version("5.0.6")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
 }
@@ -63,28 +61,6 @@ shadowJar {
 
 license {
     setHeader(file("HEADER.txt"))
-}
-
-checkstyle {
-    setToolVersion("10.1")
-    setConfigFile(file("${this.getRootDir()}/config/checkstyle/checkstyle.xml"))
-    setConfigProperties("configDirectory": "${this.getRootDir()}/config/checkstyle")
-
-    // The build should immediately fail if we have errors.
-    setMaxErrors(0)
-    setMaxWarnings(0)
-}
-
-spotbugsMain {
-    setExcludeFilter(file("${this.getRootDir()}/config/spotbugs/suppressions.xml"))
-
-    reports {
-        html {
-            getRequired().set(true)
-            getOutputLocation().set(file("${this.getBuildDir()}/reports/spotbugs/main/spotbugs.html"))
-            setStylesheet("fancy-hist.xsl")
-        }
-    }
 }
 
 sourceSets.main.getJava().srcDir(

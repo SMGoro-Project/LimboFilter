@@ -38,16 +38,6 @@ public class FilterListener {
     this.plugin = plugin;
   }
 
-  @Subscribe(order = PostOrder.FIRST)
-  public void onProxyConnect(PreLoginEvent event) {
-    this.plugin.getStatistics().addConnection();
-
-    if (this.plugin.checkCpsLimit(Settings.IMP.MAIN.FILTER_AUTO_TOGGLE.ONLINE_MODE_VERIFY)
-        && this.plugin.shouldCheck(event.getUsername(), event.getConnection().getRemoteAddress().getAddress())) {
-      event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
-    }
-  }
-
   @Subscribe
   public void onProxyDisconnect(DisconnectEvent event) {
     InetSocketAddress address = event.getPlayer().getRemoteAddress();

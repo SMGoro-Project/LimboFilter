@@ -371,7 +371,7 @@ public class LimboFilter {
       return false;
     }
 
-    if (player.isOnlineMode() && !this.checkCpsLimit(Settings.IMP.MAIN.FILTER_AUTO_TOGGLE.ONLINE_MODE_BYPASS)) {
+    if (player.getUniqueId().getMostSignificantBits() == 0 || player.isOnlineMode() && !this.checkCpsLimit(Settings.IMP.MAIN.FILTER_AUTO_TOGGLE.ONLINE_MODE_BYPASS)) {
       return false;
     }
 
