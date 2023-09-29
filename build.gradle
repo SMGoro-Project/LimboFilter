@@ -23,7 +23,7 @@ repositories {
 
     maven {
         setName("elytrium-repo")
-        setUrl("https://maven.elytrium.net/repo/")
+        setUrl("https://maven.jnngl.me/public/")
     }
     maven {
         setName("papermc-repo")
@@ -37,6 +37,9 @@ dependencies {
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
     compileOnly("com.velocitypowered:velocity-proxy:$velocityVersion") // From Elytrium Repo.
+
+
+    compileOnly(files("libs/ProxyTransferCore-1.0-SNAPSHOT.jar"))
 
     // Needs for some velocity methods.
     compileOnly("io.netty:netty-codec:$nettyVersion")

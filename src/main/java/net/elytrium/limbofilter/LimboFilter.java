@@ -77,6 +77,7 @@ import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.slf4j.Logger;
+import re.imc.proxytransfercore.ProxyTransferCore;
 
 @Plugin(
     id = "limbofilter",
@@ -368,6 +369,10 @@ public class LimboFilter {
 
   public boolean shouldCheck(Player player) {
     if (!this.checkCpsLimit(Settings.IMP.MAIN.FILTER_AUTO_TOGGLE.ALL_BYPASS)) {
+      return false;
+    }
+
+    if (ProxyTransferCore.getInstance().isTransferredPlayer(player.getUniqueId())) {
       return false;
     }
 
