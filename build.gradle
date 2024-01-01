@@ -23,7 +23,7 @@ repositories {
 
     maven {
         setName("elytrium-repo")
-        setUrl("https://maven.jnngl.me/public/")
+        setUrl("https://maven.elytrium.net/repo/")
     }
     maven {
         setName("papermc-repo")
