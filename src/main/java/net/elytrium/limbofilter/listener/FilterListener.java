@@ -23,12 +23,18 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.event.query.ProxyQueryEvent;
+import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
+
+import com.velocitypowered.proxy.connection.MinecraftConnection;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limbofilter.LimboFilter;
 import net.elytrium.limbofilter.Settings;
 import net.elytrium.limbofilter.stats.Statistics;
+import re.imc.proxytransfercore.ProxyTransferCore;
+import re.imc.proxytransfercore.listener.ConnectListener;
+import re.imc.proxytransfercore.utils.ReflectionUtils;
 
 public class FilterListener {
 
@@ -36,6 +42,26 @@ public class FilterListener {
 
   public FilterListener(LimboFilter plugin) {
     this.plugin = plugin;
+  }
+
+  @Subscribe(order = PostOrder.FIRST)
+  public void onProxyConnect(PreLoginEvent event) {
+
+    this.plugin.getStatistics().addConnection();
+    InboundConnection connection = event.getConnection();
+    if (ConnectListener.INITIAL_CONNECTION_DELEGATE != null) {
+      connection = ReflectionUtils.getCastedValue(connection, ConnectListener.INITIAL_CONNECTION_DELEGATE);
+    }
+
+    MinecraftConnection mcConnection = (MinecraftConnection)ReflectionUtils.getValue(connection, ConnectListener.INITIAL_MINECRAFT_CONNECTION);
+    if (ProxyTransferCore.getInstance().getTransferredConnectionsUUID().getIfPresent(mcConnection) != null) {
+      return;
+    }
+
+    if (this.plugin.checkCpsLimit(Settings.IMP.MAIN.FILTER_AUTO_TOGGLE.ONLINE_MODE_VERIFY)
+            && this.plugin.shouldCheck(event.getUsername(), event.getConnection().getRemoteAddress().getAddress())) {
+      event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
+    }
   }
 
   @Subscribe
