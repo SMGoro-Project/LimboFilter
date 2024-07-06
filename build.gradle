@@ -40,7 +40,7 @@ dependencies {
 
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
-    compileOnly(files("$rootDir/velocity-proxy-imc.jar")) // From Elytrium Repo.
+    compileOnly(files("$rootDir/libs/velocity-proxy.jar")) // From Elytrium Repo.
 
 
     compileOnly(files("libs/ProxyTransferCore.jar"))
